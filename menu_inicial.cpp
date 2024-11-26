@@ -6,7 +6,9 @@ const int NUM_ALUMNOS = 20; // Número máximo de alumnos
 
 // Estructura para almacenar los datos personales de los alumnos
 struct Alumno {
-
+    string nombre;
+    string matricula;
+    float calificaciones[8];
 };
 
 // Estructura para almacenar los nombres de las materias
@@ -26,17 +28,59 @@ void mostrarMenu() {
 
 // Función para dar de alta a un alumno 
 void altaAlumno(Alumno alumnos[], int &numAlumnos, Materias &materias) {
+    if (numAlumnos >= NUM_ALUMNOS) {
+        cout << "No se pueden registrar más alumnos." << endl;
+        return;
+    }
 
+    Alumno nuevoAlumno;
+    cout << "Ingrese el nombre del alumno: ";
+    getline(cin, nuevoAlumno.nombre);
+    cout << "Ingrese la matrícula del alumno: ";
+    getline(cin, nuevoAlumno.matricula);
+
+    cout << "Ingrese las calificaciones para las materias:" << endl;
+    for (int i = 0; i < 8; i++) {
+        cout << materias.nombreMaterias[i] << ": ";
+        cin >> nuevoAlumno.calificaciones[i];
+    }
+    cin.ignore(); // Limpiar el buffer de entrada
+
+    alumnos[numAlumnos] = nuevoAlumno;
+    numAlumnos++;
+
+    cout << "Alumno registrado con éxito." << endl;
 }
 
 // Función para consultar los datos de un alumno
 void consultarAlumno(Alumno alumnos[], int numAlumnos, Materias &materias) {
+    if (numAlumnos == 0) {
+        cout << "No hay alumnos registrados." << endl;
+        return;
+    }
 
+    string nombreBusqueda;
+    cout << "Ingrese el nombre del alumno a consultar: ";
+    getline(cin, nombreBusqueda);
+
+    for (int i = 0; i < numAlumnos; i++) {
+        if (alumnos[i].nombre == nombreBusqueda) {
+            cout << "\nNombre: " << alumnos[i].nombre << endl;
+            cout << "Matrícula: " << alumnos[i].matricula << endl;
+            cout << "Calificaciones:" << endl;
+            for (int j = 0; j < 8; j++) {
+                cout << materias.nombreMaterias[j] << ": " << alumnos[i].calificaciones[j] << endl;
+            }
+            return;
+        }
+    }
+
+    cout << "Alumno no encontrado." << endl;
 }
 
-// Función para eliminar un alumno
+// Función para eliminar un alumno (opcional, aún no implementada)
 void eliminarAlumno(Alumno alumnos[], int &numAlumnos) {
-
+    // Aquí podrías implementar la lógica para eliminar un alumno en el futuro.
 }
 
 int main() {
